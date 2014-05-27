@@ -4,6 +4,7 @@ app.controller('CardController', ['$scope', 'CardListFactory',
 function ($scope, CardList) {
     $scope.current_card = null;
     $scope.cards = CardList.cards;
+    CardList.loadCards();
 
     $scope.new_attr_name = '';
     $scope.new_attr_value = '';
@@ -28,5 +29,15 @@ function ($scope, CardList) {
 
     $scope.removeAttribute = function(attribute) {
         $scope.current_card.removeAttribute(attribute);
+    }
+
+    $scope.save = function() {
+        $scope.current_card.save();
+    }
+
+    $scope.delete = function() {
+        CardList.delete($scope.current_card);
+        $scope.current_card = null;
+        $scope.selectedCardIndex = "";
     }
 }]);
