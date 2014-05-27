@@ -1,9 +1,9 @@
 var app = angular.module('app');
 
-app.controller('previewController', ['$scope', 'TemplateFactory', 'AccountListFactory',
-function ($scope, TemplateFactory, AccountListFactory) {
+app.controller('previewController', ['$scope', 'TemplateFactory', 'TwitterService',
+function ($scope, TemplateFactory, TwitterService) {
     $scope.selectedAccount = "";
-    $scope.accounts = AccountListFactory.accounts;
+    $scope.accounts = TwitterService.accounts;
     $scope.current_layout = {};
 
     $scope.current_layout.width = TemplateFactory.width;

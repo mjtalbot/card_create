@@ -1,7 +1,7 @@
 var twitterServices = angular.module('TwitterFactory',[]);
 
-twitterServices.factory('AccountFactory', function(){
-    var AccountFactory = function(profile, timeline) {
+twitterServices.factory('TwitterFactory', function(){
+    var TwitterFactory = function(profile, timeline) {
         this.location = profile.location;
         this.name = profile.name;
         this.favourites_count = profile.favourites_count;
@@ -43,13 +43,12 @@ twitterServices.factory('AccountFactory', function(){
             return user_mentions/timeline.length;
         }()
     }
-    return AccountFactory;
+    return TwitterFactory;
 });
 
-twitterServices.factory('AccountListFactory', ['AccountFactory', '$http', '$q', function(AccountFactory, $http, $q){
-    var AccountListFactory = {};
-    AccountListFactory.accounts = [];
-    AccountListFactory.addAccount = function(name) {
+twitterServices.service('TwitterService', ['TwitterFactory', '$http', '$q', function(TwitterFactory, $http, $q){
+    var TwitterService = {};
+    TwitterService.search = function(name) {
         var def = $q.defer();
         $http.get('/profile/'+name).then(
             function(data){
@@ -57,8 +56,7 @@ twitterServices.factory('AccountListFactory', ['AccountFactory', '$http', '$q', 
                 $http.get('/timeline/'+name).then(
                     function(data) {
                         var timeline = data.data.timeline;
-                        var new_account = new AccountFactory(profile, timeline);
-                        AccountListFactory.accounts.push(new AccountFactory(profile, timeline));
+                        var new_account = new TwitterFactory(profile, timeline);
                         def.resolve(new_account);
                     },
                     def.reject
@@ -68,5 +66,5 @@ twitterServices.factory('AccountListFactory', ['AccountFactory', '$http', '$q', 
         )
         return def.promise;
     }
-    return AccountListFactory;
+    return TwitterService;
 }]);
