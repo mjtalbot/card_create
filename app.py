@@ -36,6 +36,5 @@ if __name__ == '__main__':
         config['twitter']['key'],
         config['twitter']['secret']
     )
-    app.port = config['app']['port']
     app.debug = True
-    app.run()
+    app.run(port = config['app']['port'])
