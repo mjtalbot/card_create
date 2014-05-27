@@ -1,0 +1,71 @@
+.template_section {
+    clear:left;
+    float:left;
+}
+
+.creation {
+    float:left;
+}
+
+.base_placeholder {
+    float:left;
+    background:pink;
+    overflow:hidden;
+    position:relative;
+}
+
+.base_placeholder > .layer.selected {
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+    box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+}
+
+.layers {
+    float:left;
+    height:600px;
+    width:100px;
+    background:gray;
+}
+
+.layers > div {
+    float:left;
+    width:90px;
+    height:90px;
+    margin:5px;
+    background:silver;
+    text-align:center;
+    line-height:90px;
+}
+.layers > div:hover {
+    cursor: pointer;
+}
+.layers > div.selected {
+    font-weight:bold;
+    color:red;
+    background:pink;
+}
+.creation > .controls {
+    float:left;
+    background: red;
+    height: 600px;
+    width: 300px;
+}
+
+.preview_section {
+    float:left;
+    width:500px;
+    border:1px solid black;
+    margin:5px;
+}
+
+.inline {
+    display: inline;
+}
+
+.preview {
+    background: white;
+    border:1px solid black;
+    margin:5px;
+    position:relative;
+    overflow:hidden;
+}

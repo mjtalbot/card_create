@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="A site to take a peek at peoples twitter activity" />
+        <title>Very Twirk, Such comment</title>
+
+        <link rel="stylesheet" href="/static/css/all.css" />
+        <script src="/static/js/external_packages/angular.js"></script>
+        <script src="/static/js/external_packages/selection_model.js"></script>
+
+
+        <script src="/static/js/factory/account.js"></script>
+        <script src="/static/js/controller/account.js"></script>
+
+        <script src="/static/js/factory/template.js"></script>
+        <script src="/static/js/controller/template.js"></script>
+
+        <script src="/static/js/controller/preview.js"></script>
+
+        <script src="/static/js/filter/filter.js"></script>
+
+        <script src="/static/js/factory/card.js"></script>
+        <script src="/static/js/controller/card.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Gambit</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#cards">Cards</a></li>
+                        <li><a href="#templates">Templates</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <br/>
+            <br/>
+            <br/>
+            <h1 id="cards">
+                Cards
+                <small>
+                    Here you can see the current cards you have prepared in the system.
+                    To add new card details simply press add card and enter any information
+                    neccessary to this card.
+
+                    If you're just playing around you can also import cards from twitter
+                </small>
+            </h1>
+
+            <div class="card_section" ng-controller="CardController as s">
+                <div class="card_choice col-md-3">
+                    <button ng-click="addCard()">Add a new Card</button>
+                    <ul class="card_list">
+                        <li ng-repeat="card in cards" ng-class="{selected:$index==selectedCardIndex}" ng-click="selectCard($index)">{{$index +1}} {{card.name}}</li>
+                    </ul>
+                </div>
+                <div class="card_details col-md-6">
+                    <h3>Current Card Details</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>attribute</th>
+                                <th>name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>name</td>
+                                <td><input type="text" ng-model="current_card.name" /></td>
+                            </tr>
+
+                            <tr ng-repeat="(attr_key, attr_value) in current_card.attributes">
+                                <td>{{attr_key}}</td>
+                                <td><input type="text" ng-model="attr_value" /></td>
+                                <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" ng-model="new_attr_name" placeholder="Enter Attribute name here" /></td>
+                                <td><input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" /></td>
+                                <td><button ng-click="addAttribute()">Add</button></td
+                            </tr>
+                        </tbody>
+                        </div>
+                    </table>
+                    <div>
+                        <form >
+                            <label>Attribute Name: </label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="twitter_section" ng-controller="twitterAccountController">
+                <form ng-submit="getSearch()">
+                    <label>Search:</label>
+                    <input type="text" ng-model="search" placeholder="Enter your search here">
+                    <div class="searching_{{searching}}">Searching...</div>
+                    <div class="error_{{error}}">Error with your search, please try again.</div>
+                </form>
+
+                <div class="card" ng-repeat="account in accounts">
+                    <div class="attributes">
+                        <div class="attribute" ng-repeat="attribute in attributes">
+                            <div class="label"> {{attribute}} </div>
+                            <div class="value"> {{account[attribute]}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="templates" class="template_section">
+                <div class="creation" ng-controller="templateController">
+                    <div class="base_placeholder" style="width:{{maxWidth}}px;height:{{maxHeight}}px;">
+                        <div class="layer" ng-class="{selected: selectedIndex==$index}" style="
+                                width:{{layer.width}}px;
+                                height:{{layer.height}}px;
+                                top:{{layer.top}}px;
+                                left:{{layer.left}}px;
+                                background_image:{{layer.background_image}};
+                                position:{{layer.position}};
+                                border:1px solid black;"
+                            ng-repeat="layer in layers">
+                            {{layer.text || "Layer "+$index }}
+                        </div>
+                    </div>
+                    <div class="layers">
+                        <div class="add_layer" ng-click="addLayer()">
+                            Add (+)
+                        </div>
+                        <div class="layer" ng-class="{selected: selectedIndex==$index}" ng-repeat="layer in layers" ng-click="selectLayer($index)">
+                            Layer {{$index}}
+                            <div class="inline" ng-click="removeLayer($index)">
+                                (-)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <h3>Please add a layer before using the controls</h3>
+                        <label>Width:</label>
+                        <input
+                            type="number"
+                            name="width_input"
+                            ng-model="selectedLayer.width"
+                            min="1"
+                            max="{{maxWidth}}"
+                        /><br/>
+                        <label>Height:</label>
+                        <input
+                            type="number"
+                            name="height_input"
+                            ng-model="selectedLayer.height"
+                            min="1"
+                            max="{{maxHeight}}"
+                        /><br/>
+                        <label>Top Offset:</label>
+                        <input
+                            type="number"
+                            name="top_input"
+                            ng-model="selectedLayer.top"
+                            min="0"
+                            max="{{maxHeight}}"
+                        /><br/>
+                        <label>Left Offset:</label>
+                        <input
+                            type="number"
+                            name="left_input"
+                            ng-model="selectedLayer.left"
+                            min="0"
+                            max="{{maxWidth}}"
+                        /><br/>
+                        <label>Text Contents:</label>
+                        <input
+                            type="textbox"
+                            name="text_input"
+                            ng-model="selectedLayer.text"
+                        />
+                        <div>Please note, any words beginning with # will be replaced with attributes later</div>
+                        <br/>
+                        <label>Background Image:</label>
+                        <input
+                            type="textbox"
+                            name="text_input"
+                            ng-model="selectedLayer.background_image"
+                        />
+                        <div>Please note this must be a valid url, or being with a # and be replaced with an attribute later</div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview_section" ng-controller="previewController">
+                <div class="controls">
+                    <label>Preview using: </label>
+                    <select ng-model="selectedAccount" ng-options="account.name for account in accounts">
+                        <option value="">-- choose account --</option>
+                    </select>
+                </div>
+                <div class="preview" style="width:{{current_layout.width}}px;height:{{current_layout.height}}px;">
+                    <div class="layer" style="
+                            width:{{layer.width}}px;
+                            height:{{layer.height}}px;
+                            top:{{layer.top}}px;
+                            left:{{layer.left}}px;
+                            {{layer.background_image | image_filter}}
+                            background-size:100% 100%;
+                            position:{{layer.position}};"
+                        ng-repeat="layer in current_layout.layers_converted">
+                        {{layer.text}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
