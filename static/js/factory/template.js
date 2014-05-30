@@ -115,11 +115,14 @@ function(TemplateFactory, TemplateService){
 
     TemplateListFactory.addTemplate = function(template) {
         TemplateListFactory.templates.push(new TemplateFactory(template));
-        console.log(TemplateListFactory.templates)
     }
     TemplateListFactory.deleteTemplate = function(template) {
-        var index = TemplateListFactory.indexOf(template);
+        var index = TemplateListFactory.templates.indexOf(template);
         TemplateListFactory.templates.splice(index,1);
+        TemplateService.deleteTemplate(template.id);
+        TemplateListFactory.selectedTemplate = null;
+        TemplateListFactory.selectedLayer = null;
+
     }
     TemplateListFactory.selectTemplate = function(template) {
         TemplateListFactory.selectedTemplate = template;

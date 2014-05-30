@@ -11,7 +11,12 @@
     <ul class="template_list">
         <li
             ng-repeat="template in data.templates"
-            ng-class="{selected:$index==data.templates.indexOf(data.selectedTemplate)}"
+            ng-class="
+                {
+                    selected:$index==data.templates.indexOf(data.selectedTemplate),
+                    saved:template.saved
+                }
+            "
             ng-click="selectTemplate($index)">
             {{$index +1}} {{template.name}}
         </li>

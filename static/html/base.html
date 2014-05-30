@@ -39,36 +39,26 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#cards">Cards</a></li>
+                        <li><a href="#twitter">Twitter</a></li>
                         <li><a href="#templates">Templates</a></li>
+                        <li><a href="#preview">Preview</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="container">
-            <br/>
-            <br/>
-            <br/>
-            <h1 class="row" id="cards">
-                Cards
-                <small>
-                    Here you can see the current cards you have prepared in the system.
-                    To add new card details simply press add card and enter any information
-                    neccessary to this card.
-
-                    If you're just playing around you can also import cards from twitter
-                </small>
-            </h1>
-
             <div
+                id="cards"
                 class="card_section row"
                 ng-include="'/static/html/templates/card.html'"
                 ng-controller="CardController">
             </div>
 
             <div
-                 class="twitter_section row"
-                 ng-include="'/static/html/templates/twitter.html'"
-                 ng-controller="twitterAccountController">
+                id="twitter"
+                class="twitter_section row"
+                ng-include="'/static/html/templates/twitter.html'"
+                ng-controller="twitterAccountController">
             </div>
 
             <div
@@ -78,6 +68,7 @@
             </div>
 
             <div
+                id="preview"
                 class="preview_section row"
                 ng-include="'/static/html/templates/preview.html'"
                 ng-controller="previewController">

@@ -51,7 +51,7 @@ def template_delete(id):
     """
     return details about specific template
     """
-    path = os.path.join(config['storage']['template'], id)
+    path = os.path.join(cfg.config['storage']['template'], id)
     if not os.path.exists(path):
         flask.abort(404)
 
