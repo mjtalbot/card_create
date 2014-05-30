@@ -99,7 +99,8 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
                 );
             }
         });
-        angular.extend(this,data);
+        if (data)
+            angular.extend(this,data);
     }
     return TemplateFactory;
 }]);
@@ -112,8 +113,8 @@ function(TemplateFactory, TemplateService){
     TemplateListFactory.selectedTemplate = null;
     TemplateListFactory.selectedLayer = null;
 
-    TemplateListFactory.addTemplate = function() {
-        TemplateListFactory.templates.push(new TemplateFactory());
+    TemplateListFactory.addTemplate = function(template) {
+        TemplateListFactory.templates.push(new TemplateFactory(template));
         console.log(TemplateListFactory.templates)
     }
     TemplateListFactory.deleteTemplate = function(template) {

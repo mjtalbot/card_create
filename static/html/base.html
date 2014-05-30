@@ -59,266 +59,28 @@
                 </small>
             </h1>
 
-            <div class="card_section row" ng-controller="CardController">
-                <div class="card_choice col-md-3">
-                    <button ng-click="addCard()">Add a new Card</button>
-
-                    <ul class="card_list">
-                        <li
-                            ng-repeat="card in cards"
-                            ng-class="{selected:$index==selectedCardIndex, saved: card.saved}"
-                            ng-click="selectCard($index)">
-                            {{$index +1}} {{card.name}}
-                        </li>
-                    </ul>
-                </div>
-                <div ng-if="current_card" class="card_details col-md-6">
-                    <h3>Current Card Details</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>attribute</th>
-                                <th>name</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>name</td>
-                                <td><input type="text" ng-model="current_card.name" /></td>
-                            </tr>
-
-                            <tr ng-repeat="(attr_key, attr_value) in current_card.attributes">
-                                <td>{{attr_key}}</td>
-                                <td><input type="text" ng-model="attr_value" /></td>
-                                <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
-                            </tr>
-                            <tr>
-                                <td><input type="text" ng-model="new_attr_name" placeholder="Enter Attribute name here" /></td>
-                                <td><input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" /></td>
-                                <td><button ng-click="addAttribute()">Add</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <button ng-click="save()">Save</button>
-                        <button ng-click="delete()">Delete</button>
-                    </div>
-                </div>
-                <div ng-if="current_card==null" class="card_details col-md-6">
-                    <h3>Select
-                        <small>a card from the left to see more of its attributes</small>
-                    </h3>
-                </div>
+            <div
+                class="card_section row"
+                ng-include="'/static/html/templates/card.html'"
+                ng-controller="CardController">
             </div>
 
-            <div class="twitter_section row" ng-controller="twitterAccountController">
-                <h3>Import <small>cards from twitter for testing.</small></h3>
-                <form ng-submit="getSearch()">
-                    <label>Search:</label>
-                    <input type="text" ng-model="search" placeholder="Enter your search here" />
-                    <div class="searching_{{searching}}">Searching...</div>
-                    <div class="error_{{error}}">Error with your search, please try again.</div>
-                </form>
+            <div
+                 class="twitter_section row"
+                 ng-include="'/static/html/templates/twitter.html'"
+                 ng-controller="twitterAccountController">
             </div>
 
-            <div id="templates" class="template_section row">
-                <h3>
-                    Templates
-                    <small>
-                        allow you to add layers and apply cards to them. you can use the attributes saved
-                        against cards to dynamically fill the template.
-                    </small>
-                </h3>
-                <div class="template_selection col-md-2 highlight" ng-controller="templateListController">
-                    <button ng-click="addTemplate()">Add a new Template</button>
-
-                    <ul class="template_list">
-                        <li
-                            ng-repeat="template in data.templates"
-                            ng-class="{selected:$index==data.templates.indexOf(data.selectedTemplate)}"
-                            ng-click="selectTemplate($index)">
-                            {{$index +1}} {{template.name}}
-                        </li>
-                    </ul>
-                </div>
-                <div class="template_details col-md-10 highlight" ng-controller="templateController">
-                    <div ng-if="data.selectedTemplate!==null">
-                        <h4>Template details</h4>
-                        <div class="col-md-6">
-                            <h6>Template attributes</h6>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>attribute</th>
-                                        <th>name</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>name</td>
-                                        <td><input type="text" ng-model="data.selectedTemplate.name" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>width</td>
-                                        <td><input type="text" ng-model="data.selectedTemplate.css.width" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>heigth</td>
-                                        <td><input type="text" ng-model="data.selectedTemplate.css.height" /></td>
-                                    </tr>
-
-                                    <tr ng-repeat="(attr_key, attr_value) in data.selectedTemplate.attributes">
-                                        <td>{{attr_key}}</td>
-                                        <td><input type="text" ng-model="attr_value" /></td>
-                                        <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" ng-model="new_attr_name" placeholder="Enter Attribute name here" /></td>
-                                        <td><input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" /></td>
-                                        <td><button ng-click="addAttribute()">Add</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="layers col-md-3">
-                                <h6>Template Layers</h6>
-                                <div class="add_layer" ng-click="addLayer()">
-                                    Add (+)
-                                </div>
-                                <div class="layer"
-                                    ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
-                                    ng-repeat="layer in data.selectedTemplate.layers"
-                                    ng-click="selectLayer($index)">
-                                    Layer {{$index}}
-                                    <div class="inline" ng-click="removeLayer($index)">
-                                        (-)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-9">
-                                <h6>Layer control</h6>
-                                <label>Width:</label>
-                                <input
-                                    type="number"
-                                    name="width_input"
-                                    ng-model="data.selectedLayer.width"
-                                    min="1"
-                                    max="{{maxWidth}}"
-                                /><br/>
-                                <label>Height:</label>
-                                <input
-                                    type="number"
-                                    name="height_input"
-                                    ng-model="data.selectedLayer.height"
-                                    min="1"
-                                    max="{{maxHeight}}"
-                                /><br/>
-                                <label>Top Offset:</label>
-                                <input
-                                    type="number"
-                                    name="top_input"
-                                    ng-model="data.selectedLayer.top"
-                                    min="0"
-                                    max="{{maxHeight}}"
-                                /><br/>
-                                <label>Left Offset:</label>
-                                <input
-                                    type="number"
-                                    name="left_input"
-                                    ng-model="data.selectedLayer.left"
-                                    min="0"
-                                    max="{{maxWidth}}"
-                                /><br/>
-                                <label>Text Contents:</label>
-                                <input
-                                    type="textbox"
-                                    name="text_input"
-                                    ng-model="data.selectedLayer.text"
-                                />
-                                <div>Please note, any words beginning with # will be replaced with attributes later</div>
-                                <br/>
-                                <label>Background Image:</label>
-                                <input
-                                    type="textbox"
-                                    name="text_input"
-                                    ng-model="data.selectedLayer.background_image"
-                                />
-                                <div>Please note this must be a valid url, or being with a # and be replaced with an attribute later</div>
-                                <br/>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="base_placeholder" style="width:{{data.selectedTemplate.css.width}}px;height:{{data.selectedTemplate.css.height}}px;">
-                                <div class="layer"
-                                    ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
-                                    style="
-                                        width:{{layer.width}}px;
-                                        height:{{layer.height}}px;
-                                        top:{{layer.top}}px;
-                                        left:{{layer.left}}px;
-                                        background_image:{{layer.background_image}};
-                                        position:{{layer.position}};
-                                        border:1px solid black;"
-                                    ng-repeat="layer in data.selectedTemplate.layers">
-                                    {{layer.text || "Layer "+$index }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <button ng-click="save()">Save</button>
-                            <button ng-click="delete()">Delete</button>
-                        </div>
-                    </div>
-
-                    <div ng-if="data.selectedTemplate == null" class="template_details col-md-10">
-                        <h3>
-                            Please create a template to the left
-                        </h3>
-                    </div>
-                </div>
+            <div
+                id="templates"
+                ng-include="'/static/html/templates/template.html'"
+                class="template_section row">
             </div>
 
-            <div class="preview_section row" ng-controller="previewController">
-                <h3>
-                    Preview
-                    <small>
-                        allows you to see how your templates combine with your cards.
-                        chose your template, chose your card and see the preview.
-                    </small>
-                </h3>
-                <div class="col-md-12">
-                    <div class="controls col-md-4">
-                        <label>Preview using: </label> <br/>
-                        <select class ng-model="selectedCard" ng-options="card.name for card in cards">
-                            <option value="">-- choose card --</option>
-                        </select> 
-                        <select ng-model="selectedTemplate" ng-options="template.name for template in templates">
-                            <option value="">-- choose template --</option>
-                        </select>
-                    </div>
-                    <div class="col-md-8">
-                        <div style="width:{{current_layout.width}}px;height:{{current_layout.height}}px;">
-                            <div style="
-                                    width:{{layer.width}}px;
-                                    height:{{layer.height}}px;
-                                    top:{{layer.top}}px;
-                                    left:{{layer.left}}px;
-                                    {{layer.background_image | image_filter}}
-                                    background-size:100% 100%;
-                                    position:{{layer.position}};"
-                                ng-repeat="layer in current_layout.convertedLayers">
-                                {{layer.text}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div
+                class="preview_section row"
+                ng-include="'/static/html/templates/preview.html'"
+                ng-controller="previewController">
             </div>
         </div>
     </body>

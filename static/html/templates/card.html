@@ -1,0 +1,50 @@
+<div class="card_choice col-md-3">
+    <button ng-click="addCard()">Add a new Card</button>
+
+    <ul class="card_list">
+        <li
+            ng-repeat="card in cards"
+            ng-class="{selected:$index==selectedCardIndex, saved: card.saved}"
+            ng-click="selectCard($index)">
+            {{$index +1}} {{card.name}}
+        </li>
+    </ul>
+</div>
+<div ng-if="current_card" class="card_details col-md-6">
+    <h3>Current Card Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>attribute</th>
+                <th>name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>name</td>
+                <td><input type="text" ng-model="current_card.name" /></td>
+            </tr>
+
+            <tr ng-repeat="(attr_key, attr_value) in current_card.attributes">
+                <td>{{attr_key}}</td>
+                <td><input type="text" ng-model="attr_value" /></td>
+                <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
+            </tr>
+            <tr>
+                <td><input type="text" ng-model="new_attr_name" placeholder="Enter Attribute name here" /></td>
+                <td><input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" /></td>
+                <td><button ng-click="addAttribute()">Add</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <button ng-click="save()">Save</button>
+        <button ng-click="delete()">Delete</button>
+    </div>
+</div>
+<div ng-if="current_card==null" class="card_details col-md-6">
+    <h3>Select
+        <small>a card from the left to see more of its attributes</small>
+    </h3>
+</div>

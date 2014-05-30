@@ -1,0 +1,33 @@
+<h3>
+    Preview
+    <small>
+        allows you to see how your templates combine with your cards.
+        chose your template, chose your card and see the preview.
+    </small>
+</h3>
+<div class="col-md-12">
+    <div class="controls col-md-4">
+        <label>Preview using: </label> <br/>
+        <select class ng-model="selectedCard" ng-options="card.name for card in cards">
+            <option value="">-- choose card --</option>
+        </select>
+        <select ng-model="selectedTemplate" ng-options="template.name for template in templates">
+            <option value="">-- choose template --</option>
+        </select>
+    </div>
+    <div class="col-md-8">
+        <div style="width:{{current_layout.width}}px;height:{{current_layout.height}}px;">
+            <div style="
+                    width:{{layer.width}}px;
+                    height:{{layer.height}}px;
+                    top:{{layer.top}}px;
+                    left:{{layer.left}}px;
+                    {{layer.background_image | image_filter}}
+                    background-size:100% 100%;
+                    position:{{layer.position}};"
+                ng-repeat="layer in current_layout.convertedLayers">
+                {{layer.text}}
+            </div>
+        </div>
+    </div>
+</div>
