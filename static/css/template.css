@@ -1,11 +1,13 @@
-.template_section {
-    clear:left;
-    float:left;
+.template_list {
+    list-style-type: none;
+}
+.template_list li.selected{
+    border: 1px solid black;
+}
+.template_list li.saved{
+    background:green;
 }
 
-.creation {
-    float:left;
-}
 
 .base_placeholder {
     float:left;
@@ -21,20 +23,17 @@
 }
 
 .layers {
-    float:left;
-    height:600px;
-    width:100px;
     background:gray;
 }
 
 .layers > div {
     float:left;
-    width:90px;
-    height:90px;
-    margin:5px;
+    width:90%;
+    height:25px;
+    margin-bottom:5px
     background:silver;
     text-align:center;
-    line-height:90px;
+    line-height:25px;
 }
 .layers > div:hover {
     cursor: pointer;
@@ -44,28 +43,8 @@
     color:red;
     background:pink;
 }
-.creation > .controls {
-    float:left;
-    background: red;
-    height: 600px;
-    width: 300px;
-}
 
-.preview_section {
-    float:left;
-    width:500px;
-    border:1px solid black;
-    margin:5px;
-}
 
 .inline {
     display: inline;
-}
-
-.preview {
-    background: white;
-    border:1px solid black;
-    margin:5px;
-    position:relative;
-    overflow:hidden;
 }
