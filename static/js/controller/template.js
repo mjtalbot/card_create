@@ -3,6 +3,7 @@ var app = angular.module('app');
 app.controller('templateListController', ['$scope', 'TemplateListFactory',
 function($scope, TemplateList) {
     $scope.data = TemplateList;
+    TemplateList.loadTemplates();
 
     $scope.addTemplate = function() {
         TemplateList.addTemplate();

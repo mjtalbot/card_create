@@ -15,15 +15,61 @@ templateModule.factory('LayerFactory', function(){
     return LayerFactory;
 });
 
-templateModule.factory('TemplateFactory', ['LayerFactory', function(LayerFactory){
+
+templateModule.service('TemplateService', ['$http', '$q', function($http, $q) {
+    return {
+        storeTemplate: function(template) {
+            var url ='/template/'
+            if (template.id) url += template.id
+
+            var http = $http.post(url, data = template)
+            http.then(
+                function(data){
+                    template.id = data.uuid;
+                },
+                function(data){
+                    alert('oops error');
+                }
+            );
+            return http
+        },
+        getTemplates: function() {
+            var defer = $q.defer();
+            $http.get('/template/').then(
+                function(data) {
+                    defer.resolve(data.data.list);
+                },
+                defer.reject
+            )
+            return defer.promise;
+        },
+        getTemplateDetails: function(id) {
+            var defer = $q.defer();
+            $http.get('/template/'+id).then(
+                function(data) {
+                    defer.resolve(data.data);
+                },
+                defer.reject
+            )
+            return defer.promise;
+        },
+        deleteTemplate: function(id) {
+            if (id) {
+                $http.delete('/template/'+id);
+            }
+        }
+    }
+}]);
+
+templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', function(LayerFactory, TemplateService){
     var TemplateFactory = function(data) {
         angular.extend(this, {
             name: 'unnamed',
             id: null,
             saved:false,
             css: {
-                width: 400,
-                height: 600,
+                width: 300,
+                height: 450,
             },
             layers: [],
             attributes: {},
@@ -44,6 +90,13 @@ templateModule.factory('TemplateFactory', ['LayerFactory', function(LayerFactory
             },
             removeLayer: function(index){
                 this.layers.splice(index,1);
+            },
+            save: function() {
+                TemplateService.storeTemplate(this).then(
+                    (function(){
+                        this.saved = true;
+                    }).bind(this)
+                );
             }
         });
         angular.extend(this,data);
@@ -52,7 +105,8 @@ templateModule.factory('TemplateFactory', ['LayerFactory', function(LayerFactory
 }]);
 
 
-templateModule.factory('TemplateListFactory', ['TemplateFactory', function(TemplateFactory){
+templateModule.factory('TemplateListFactory', ['TemplateFactory', 'TemplateService',
+function(TemplateFactory, TemplateService){
     var TemplateListFactory = {};
     TemplateListFactory.templates = [];
     TemplateListFactory.selectedTemplate = null;
@@ -69,6 +123,27 @@ templateModule.factory('TemplateListFactory', ['TemplateFactory', function(Templ
     TemplateListFactory.selectTemplate = function(template) {
         TemplateListFactory.selectedTemplate = template;
         TemplateListFactory.selectedLayer = null;
+    }
+
+    TemplateListFactory.loadTemplates = function() {
+        TemplateService.getTemplates().then(
+            function(data) {
+                for (var i=0; i<data.length; i++) {
+                    TemplateService.getTemplateDetails(data[i]).then(
+                        function(template) {
+                            template.saved = true;
+                            TemplateListFactory.addTemplate(template);
+                        }
+                    )
+                }
+            }
+        )
+    }
+
+    TemplateListFactory.delete = function(template) {
+        var index = TemplateListFactory.templates.indexOf(template);
+        var delete_me = TemplateListFactory.templates.splice(index,1)[0];
+        TemplateService.deleteTemplate(delete_me.id);
     }
     return TemplateListFactory;
 }]);
