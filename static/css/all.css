@@ -7,6 +7,7 @@
 
 @import url('/static/css/bootstrap.css');
 @import url('/static/css/bootstrap-theme.css');
+@import url('/static/css/btnUpload.min.css');
 
 body {
     padding-top: 50px;

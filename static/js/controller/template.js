@@ -55,5 +55,9 @@ function($scope, TemplateList) {
         TemplateList.deleteTemplate($scope.data.selectedTemplate);
         $scope.selectedTempalte = null;
     }
+    
+    $scope.successUpload = function(input) {
+        $scope.new_attr_value = input.data.url
+    }
 
 }]);

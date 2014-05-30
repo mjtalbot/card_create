@@ -44,7 +44,18 @@
             </tr>
             <tr>
                 <td><input type="text" ng-model="new_attr_name" placeholder="Enter Attribute name here" /></td>
-                <td><input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" /></td>
+                <td>
+                    <input type="text" ng-model="new_attr_value" placeholder="Enter Attribute value here" />
+                    <div
+                      class="btn btn-primary btn-upload"
+                      upload-button
+                      url="/resource/"
+                      on-success="successUpload(response)"
+                    >
+                        U
+                    </div>
+                </td>
+
                 <td><button ng-click="addAttribute()">Add</button></td>
             </tr>
         </tbody>

@@ -40,4 +40,7 @@ function ($scope, CardList) {
         $scope.current_card = null;
         $scope.selectedCardIndex = "";
     }
+    $scope.successUpload = function(input) {
+        $scope.new_attr_value = input.data.url
+    }
 }]);

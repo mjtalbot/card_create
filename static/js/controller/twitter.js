@@ -1,4 +1,4 @@
-var module = angular.module('app', ['TwitterFactory', 'TemplateModule', 'CardModule', 'selectionModel']);
+var module = angular.module('app', ['TwitterFactory', 'TemplateModule', 'CardModule', 'selectionModel','lr.upload']);
 
 module.controller('twitterAccountController', ['$scope', 'TwitterService', 'CardListFactory',
 function ($scope, TwitterService, CardList) {

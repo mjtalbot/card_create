@@ -8,11 +8,13 @@ from lib import cfg
 
 from service.card import app as card_app
 from service.template import app as template_app
+from service.resource import app as resource_app
 
 app = flask.Flask(
     'stuff'
 )
 
+app.register_blueprint(resource_app, url_prefix='/resource')
 app.register_blueprint(card_app, url_prefix='/card')
 app.register_blueprint(template_app, url_prefix='/template')
 
@@ -32,6 +34,15 @@ def timeline(name):
 def profile(name):
     x = {'profile': app.twitter.get_profile(name)}
     return flask.jsonify(**x)
+
+
+@app.route('/static/resource/<path:filename>')
+def serve_resources(filename):
+    return flask.send_from_directory(
+        cfg.config['storage']['resource'],
+        filename
+    )
+
 
 if __name__ == '__main__':
 
