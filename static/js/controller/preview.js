@@ -16,8 +16,8 @@ function ($scope, TemplateList, CardList) {
     var regex = /#([^ :.?!]*)/g;
 
     var generatePreview = function() {
-        if ($scope.selectedTemplate == "") {
-            return
+        if ((!$scope.selectedTemplate) || (!$scope.selectedCard)) {
+            return;
         }
 
         $scope.current_layout.width = $scope.selectedTemplate.css.width;
@@ -39,18 +39,23 @@ function ($scope, TemplateList, CardList) {
                 matched = _tmp.text.match(regex);
                 if (matched) {
                     for (var j=0; j<matched.length; j++){
-                        var __tmp = matched[j];
-
-                        if (__tmp == '#name') {
+                        var __tmp = matched[j].slice(1,matched[j].length);
+                        if (__tmp == 'name') {
                             _tmp.text = _tmp.text.replace(
-                                __tmp,
-                                $scope.selectedCard[__tmp.slice(1,__tmp.length)]
+                                matched[j],
+                                $scope.selectedCard[__tmp]
                             );
                         }
-                        else {
+                        else if ($scope.selectedCard.attributes[__tmp]){
                             _tmp.text = _tmp.text.replace(
-                                __tmp,
-                                $scope.selectedCard.attributes[__tmp.slice(1,__tmp.length)]
+                                matched[j],
+                                $scope.selectedCard.attributes[__tmp]
+                            );
+                        }
+                        else if ($scope.selectedTemplate.attributes[__tmp]){
+                            _tmp.text = _tmp.text.replace(
+                                matched[j],
+                                $scope.selectedTemplate.attributes[__tmp]
                             );
                         }
                     }
@@ -61,11 +66,19 @@ function ($scope, TemplateList, CardList) {
                 matched = _tmp.background_image.match(regex);
                 if (matched) {
                     for (var j=0; j<matched.length; j++){
-                        var __tmp = matched[j];
-                        _tmp.background_image = _tmp.background_image.replace(
-                            __tmp,
-                            $scope.selectedCard.attributes[__tmp.slice(1,__tmp.length)]
-                        )
+                        var __tmp = matched[j].slice(1,matched[j].length);
+                        if ($scope.selectedCard.attributes[__tmp]) {
+                            _tmp.background_image = _tmp.background_image.replace(
+                                matched[j],
+                                $scope.selectedCard.attributes[__tmp]
+                            )
+                        }
+                        else if($scope.selectedTemplate.attributes[__tmp]) {
+                            _tmp.background_image = _tmp.background_image.replace(
+                                matched[j],
+                                $scope.selectedTemplate.attributes[__tmp]
+                            )
+                        }
                     }
                 }
             }

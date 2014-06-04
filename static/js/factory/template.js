@@ -91,6 +91,20 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
             removeLayer: function(index){
                 this.layers.splice(index,1);
             },
+            switchPlaces: function(index_a, index_b) {
+                console.log(index_a, index_b);
+                var tmp, obj_a, obj_b;
+                //force a < b
+                if (index_b < index_a) {
+                    tmp = index_a;
+                    index_a = index_b;
+                    index_b = tmp;
+                }
+                console.log(index_a, index_b);
+                obj_b = this.layers.splice(index_b, 1)[0];
+                obj_a = this.layers.splice(index_a, 1, obj_b)[0];
+                this.layers.splice(index_b, 0, obj_a);
+            },
             save: function() {
                 TemplateService.storeTemplate(this).then(
                     (function(){

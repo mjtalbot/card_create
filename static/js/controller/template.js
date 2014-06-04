@@ -31,6 +31,17 @@ function($scope, TemplateList) {
         $scope.data.selectedTemplate.removeLayer(index);
     }
 
+    $scope.moveLayerUp = function(index) {
+        if (index > 0)
+            $scope.data.selectedTemplate.switchPlaces(index, index-1);
+    }
+
+    $scope.moveLayerDown = function(index) {
+        // [1], can't switch index 0 in length 1 array
+        if (index +1 < $scope.data.selectedTemplate.layers.length)
+            $scope.data.selectedTemplate.switchPlaces(index, index+1);
+    }
+
     $scope.selectLayer = function(index) {
         $scope.data.selectedLayer = $scope.data.selectedTemplate.layers[index];
     }
@@ -55,7 +66,7 @@ function($scope, TemplateList) {
         TemplateList.deleteTemplate($scope.data.selectedTemplate);
         $scope.selectedTempalte = null;
     }
-    
+
     $scope.successUpload = function(input) {
         $scope.new_attr_value = input.data.url
     }
