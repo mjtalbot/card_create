@@ -1,6 +1,6 @@
-var module = angular.module('app', ['TwitterFactory', 'TemplateModule', 'CardModule', 'selectionModel','lr.upload']);
+var module = angular.module('app', ['TwitterFactory', 'TemplateModule', 'CardModule', 'lr.upload']);
 
-module.controller('twitterAccountController', ['$scope', 'TwitterService', 'CardListFactory',
+module.controller('TwitterAccountController', ['$scope', 'TwitterService', 'CardListFactory',
 function ($scope, TwitterService, CardList) {
     $scope.search = '';
     $scope.error = false;

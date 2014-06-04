@@ -1,12 +1,12 @@
 var app = angular.module('app');
 
-app.controller('previewController', ['$scope', 'TemplateListFactory', 'CardListFactory',
+app.controller('PreviewController', ['$scope', 'TemplateListFactory', 'CardListFactory',
 function ($scope, TemplateList, CardList) {
     $scope.cards = CardList.cards;
     $scope.templates = TemplateList.templates;
 
-    $scope.selectedTemplate = null;
-    $scope.selectedCard = null;
+    $scope.selectedTemplate = "";
+    $scope.selectedCard = "";
 
     $scope.current_layout = {};
     $scope.current_layout.convertedLayers = [];
@@ -16,7 +16,7 @@ function ($scope, TemplateList, CardList) {
     var regex = /#([^ :.?!]*)/g;
 
     var generatePreview = function() {
-        if ($scope.selectedTemplate == null) {
+        if ($scope.selectedTemplate == "") {
             return
         }
 

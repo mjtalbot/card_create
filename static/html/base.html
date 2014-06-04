@@ -7,7 +7,6 @@
 
         <link rel="stylesheet" href="/static/css/all.css" />
         <script src="/static/js/external_packages/angular.js"></script>
-        <script src="/static/js/external_packages/selection_model.js"></script>
         <script src="/static/js/external_packages/angular-upload.min.js"></script>
 
 
@@ -51,28 +50,22 @@
             <div
                 id="cards"
                 class="card_section row"
-                ng-include="'/static/html/templates/card.html'"
-                ng-controller="CardController">
+                ng-include="'/static/html/templates/card.html'">
             </div>
 
             <div
-                id="twitter"
                 class="twitter_section row"
-                ng-include="'/static/html/templates/twitter.html'"
-                ng-controller="twitterAccountController">
+                ng-include="'/static/html/templates/twitter.html'">
             </div>
 
             <div
-                id="templates"
                 ng-include="'/static/html/templates/template.html'"
                 class="template_section row">
             </div>
 
             <div
-                id="preview"
                 class="preview_section row"
-                ng-include="'/static/html/templates/preview.html'"
-                ng-controller="previewController">
+                ng-include="'/static/html/templates/preview.html'">
             </div>
         </div>
     </body>
