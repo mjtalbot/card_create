@@ -26,7 +26,7 @@
 <div class="template_details col-md-10 highlight" ng-controller="templateController">
     <div ng-if="data.selectedTemplate!==null">
         <h4>Template details</h4>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h6>Template attributes</h6>
             <table class="table">
                 <thead>
@@ -52,7 +52,7 @@
 
                     <tr ng-repeat="(attr_key, attr_value) in data.selectedTemplate.attributes">
                         <td>{{attr_key}}</td>
-                        <td><input type="text" ng-model="attr_value" /></td>
+                        <td><input type="text" ng-model="data.selectedTemplates.attributes[attr_key]" /></td>
                         <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
                     </tr>
                     <tr>
@@ -74,63 +74,48 @@
             </table>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="layers col-md-3">
                 <h6>Template Layers</h6>
                 <div class="add_layer" ng-click="addLayer()">
-                    Add (+)
+
+                    <div class="inline glyphicon glyphicon-plus-sign"></div>
                 </div>
                 <div class="layer"
                     ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
                     ng-repeat="layer in data.selectedTemplate.layers"
                     ng-click="selectLayer($index)">
                     Layer {{$index}}
-                    <div class="inline" ng-click="removeLayer($index)">
-                        (-)
-                    </div>
-                    <div class="inline" ng-click="moveLayerUp($index)">
-                        (u)
-                    </div>
-                    <div class="inline" ng-click="moveLayerDown($index)">
-                        (d)
-                    </div>
+                    <div class="inline not-selected-hidden glyphicon glyphicon-remove" ng-click="removeLayer($index)"></div>
+                    <div class="inline not-selected-hidden glyphicon glyphicon-arrow-up" ng-click="moveLayerUp($index)"></div>
+                    <div class="inline not-selected-hidden glyphicon glyphicon-arrow-down" ng-click="moveLayerDown($index)"></div>
                 </div>
             </div>
 
             <div class="col-md-9">
                 <h6>Layer control</h6>
-                <label>Width:</label>
-                <input
-                    type="number"
-                    name="width_input"
-                    ng-model="data.selectedLayer.width"
-                    min="1"
-                    max="{{maxWidth}}"
-                /><br/>
-                <label>Height:</label>
-                <input
-                    type="number"
-                    name="height_input"
-                    ng-model="data.selectedLayer.height"
-                    min="1"
-                    max="{{maxHeight}}"
-                /><br/>
-                <label>Top Offset:</label>
-                <input
-                    type="number"
-                    name="top_input"
-                    ng-model="data.selectedLayer.top"
-                    min="0"
-                    max="{{maxHeight}}"
-                /><br/>
-                <label>Left Offset:</label>
-                <input
-                    type="number"
-                    name="left_input"
-                    ng-model="data.selectedLayer.left"
-                    min="0"
-                    max="{{maxWidth}}"
-                /><br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>css</th>
+                            <th>value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="css in data.selectedLayer.css">
+                            <td>{{css.key}}</td>
+                            <td><input type="text" ng-model="css.value" /></td>
+                            <td><button ng-click="data.selectedLayer.deleteAttribute($index)">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" ng-model="key"/></td>
+                            <td><input type="text" ng-model="value"/></td>
+                            <td><button ng-click="data.selectedLayer.addAttribute(key, value); key = ''; value = '';">Add</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <label>Text Contents:</label>
                 <input
                     type="textbox"
@@ -150,18 +135,11 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="base_placeholder" style="width:{{data.selectedTemplate.css.width}}px;height:{{data.selectedTemplate.css.height}}px;">
                 <div class="layer"
                     ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
-                    style="
-                        width:{{layer.width}}px;
-                        height:{{layer.height}}px;
-                        top:{{layer.top}}px;
-                        left:{{layer.left}}px;
-                        background_image:{{layer.background_image}};
-                        position:{{layer.position}};
-                        border:1px solid black;"
+                    style="{{layer.style_sheet}}"
                     ng-repeat="layer in data.selectedTemplate.layers">
                     {{layer.text || "Layer "+$index }}
                 </div>

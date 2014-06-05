@@ -22,6 +22,10 @@ function($scope, TemplateList) {
     $scope.new_attr_name = "";
     $scope.new_attr_value = "";
 
+    $scope.selectLayer = function(index) {
+        $scope.data.selectedLayer = $scope.data.selectedTemplate.layers[index];
+    }
+
     $scope.addLayer = function() {
         $scope.data.selectedTemplate.addLayer();
         $scope.selectLayer($scope.data.selectedTemplate.layers.length-1);
@@ -42,9 +46,6 @@ function($scope, TemplateList) {
             $scope.data.selectedTemplate.switchPlaces(index, index+1);
     }
 
-    $scope.selectLayer = function(index) {
-        $scope.data.selectedLayer = $scope.data.selectedTemplate.layers[index];
-    }
 
     $scope.addAttribute = function() {
         $scope.data.selectedTemplate.addAttribute(
@@ -70,5 +71,12 @@ function($scope, TemplateList) {
     $scope.successUpload = function(input) {
         $scope.new_attr_value = input.data.url
     }
+    var calcStyleHelper = function () {
+        console.log('waht')
+        if ($scope.data.selectedLayer)
+            $scope.data.selectedLayer.calculateStyle();
+    }
+
+    $scope.$watch( 'data.selectedLayer.css' , calcStyleHelper, true);
 
 }]);

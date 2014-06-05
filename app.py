@@ -62,9 +62,9 @@ if __name__ == '__main__':
         os.makedirs(cfg.config['storage']['resource'])
 
     app.twitter = twitter.Twitter()
-    #app.twitter.acquire_token(
-    #    cfg.config['twitter']['key'],
-    #    cfg.config['twitter']['secret']
-    #)
+    app.twitter.acquire_token(
+        cfg.config['twitter']['key'],
+        cfg.config['twitter']['secret']
+    )
     app.debug = True
     app.run(port=cfg.config['app']['port'])

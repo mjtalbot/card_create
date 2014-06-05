@@ -1,16 +1,72 @@
 var templateModule = angular.module('TemplateModule',[]);
 
 templateModule.factory('LayerFactory', function(){
-    var LayerFactory = function() {
+    var LayerFactory = function(data) {
         angular.extend(this, {
-            width: 100,
-            height: 100,
-            position: 'absolute',
-            top: 0,
-            left: 0,
             text: null,
-            background_image: null
+            background_image: null,
+            css: [],
+            addAttribute: function(key, value) {
+                if (key)
+                    this.css.push({
+                        key: key,
+                        value: value
+                    });
+            },
+            deleteAttribute: function(index) {
+                this.css.splice(index, 1);
+            },
+            setText: function(text) {
+                this.text = text;
+            },
+            deleteText: function() {
+                this.text = null;
+            },
+            setBackgroundImage: function(background_image) {
+                this.background_image = background_image;
+            },
+            deleteBackgroundImage: function() {
+                this.background_image = null;
+            },
+            calculateStyle: function() {
+                var out = '';
+                for (var i =0; i < this.css.length; i++) {
+                    out += '#key:#value;'.replace('#key', this.css[i].key).replace('#value', this.css[i].value);
+                }
+                this.style_sheet = out;
+            },
+            style_sheet: ''
         });
+        if (data)
+            angular.extend(this, data);
+        else {
+            angular.extend(this, {
+                css : [
+                    {
+                        key: 'width',
+                        value: '100px'
+                    },
+                    {
+                        key: 'height',
+                        value: '100px'
+                    },
+                    {
+                        key: 'position',
+                        value: 'absolute'
+                    },
+                    {
+                        key: 'top',
+                        value: '0px'
+                    },
+                    {
+                        key: 'left',
+                        value: '0px'
+                    }
+                ]
+            });
+        }
+        this.calculateStyle();
+
     };
     return LayerFactory;
 });
@@ -92,7 +148,6 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
                 this.layers.splice(index,1);
             },
             switchPlaces: function(index_a, index_b) {
-                console.log(index_a, index_b);
                 var tmp, obj_a, obj_b;
                 //force a < b
                 if (index_b < index_a) {
@@ -100,7 +155,6 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
                     index_a = index_b;
                     index_b = tmp;
                 }
-                console.log(index_a, index_b);
                 obj_b = this.layers.splice(index_b, 1)[0];
                 obj_a = this.layers.splice(index_a, 1, obj_b)[0];
                 this.layers.splice(index_b, 0, obj_a);
@@ -113,8 +167,16 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
                 );
             }
         });
-        if (data)
+        if (data) {
+            var layers = data.layers;
+            var layer;
+            delete data.layers;
             angular.extend(this,data);
+            while (layer = layers.pop()) {
+                this.layers.push(new LayerFactory(layer));
+            }
+
+        }
     }
     return TemplateFactory;
 }]);

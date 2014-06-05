@@ -17,15 +17,11 @@
             </select>
         </div>
         <div class="col-md-8">
-            <div style="width:{{current_layout.width}}px;height:{{current_layout.height}}px;">
+            <div style="width:{{current_layout.width}}px;height:{{current_layout.height}}px;position:relative;">
                 <div style="
-                        width:{{layer.width}}px;
-                        height:{{layer.height}}px;
-                        top:{{layer.top}}px;
-                        left:{{layer.left}}px;
+                        {{layer.style_sheet}}
                         {{layer.background_image | image_filter}}
-                        background-size:100% 100%;
-                        position:{{layer.position}};"
+                    "
                     ng-repeat="layer in current_layout.convertedLayers">
                     {{layer.text}}
                 </div>

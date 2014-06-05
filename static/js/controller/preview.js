@@ -27,15 +27,12 @@ function ($scope, TemplateList, CardList) {
         var tmp = $scope.selectedTemplate.layers;
         for (var i=0; i<tmp.length; i++) {
             var _tmp = {
-                width: tmp[i].width,
-                height: tmp[i].height,
-                top: tmp[i].top,
-                left: tmp[i].left,
-                text: tmp[i].text,
-                position: tmp[i].position,
+                style_sheet: tmp[i].style_sheet,
                 background_image: tmp[i].background_image,
-            }
-            if (_tmp.text) {
+                text: tmp[i].text
+            };
+            if (tmp.text) {
+
                 matched = _tmp.text.match(regex);
                 if (matched) {
                     for (var j=0; j<matched.length; j++){
@@ -82,7 +79,8 @@ function ($scope, TemplateList, CardList) {
                     }
                 }
             }
-
+            console.log(_tmp.text)
+            console.log(_tmp.style_sheet)
             $scope.current_layout.convertedLayers.push(_tmp);
         }
     }

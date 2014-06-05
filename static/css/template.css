@@ -43,6 +43,14 @@
     background:pink;
 }
 
+.layers > div > .not-selected-hidden {
+    display: none;
+}
+
+.layers > div.selected > .not-selected-hidden {
+    display:inline;
+}
+
 
 .inline {
     display: inline;
