@@ -27,13 +27,9 @@
 
 .card_list > .card{
     text-align: left;
-    background-color: silver;
     margin-bottom: 3px;
 }
 
-.card_list > .selected{
-    background-color: gold;
-}
 
 .card_details {
     max-height:400px;

@@ -86,7 +86,7 @@ cardModule.factory('CardListFactory', ['CardFactory', 'CardService', function(Ca
 
     CardListFactory.addCard = function(data) {
         var new_card = new CardFactory(data);
-        CardListFactory.cards.push(new_card);
+        CardListFactory.cards.unshift(new_card);
         return new_card;
     };
 
