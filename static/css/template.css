@@ -17,9 +17,9 @@
 }
 
 .base_placeholder > .layer.selected {
-    -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-    -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-    box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+    -webkit-box-shadow: 0 0 15px 5px rgba(255, 255, 190, .75);
+    -moz-box-shadow: 0 0 15px 5px rgba(255, 255, 190, .75);
+    box-shadow: 0 0 15px 5px rgba(255, 255, 190, .75);
 }
 
 .layers {
@@ -28,8 +28,8 @@
 
 .layers > div {
     float:left;
-    width:90%;
-    margin-bottom:5px
+    width:100%;
+    margin-bottom:5px;
     background:silver;
     text-align:center;
     line-height:25px;

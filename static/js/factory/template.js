@@ -3,6 +3,7 @@ var templateModule = angular.module('TemplateModule',[]);
 templateModule.factory('LayerFactory', function(){
     var LayerFactory = function(data) {
         angular.extend(this, {
+            name: null,
             text: null,
             background_image: null,
             css: [],
@@ -129,7 +130,7 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
             },
             layers: [],
             attributes: {},
-            addAttribute: function(key,value){
+            addAttribute: function(key, value){
                 if(key) {
                     this.attributes[key] = value;
                     this.saved = false;
@@ -141,11 +142,14 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
                 delete this.attributes[key];
                 this.saved = false;
             },
-            addLayer: function() {
-                this.layers.push(new LayerFactory());
+            addLayer: function(data) {
+                this.layers.push(new LayerFactory(data));
             },
             removeLayer: function(index){
                 this.layers.splice(index,1);
+            },
+            cloneLayer: function(index) {
+                this.addLayer(angular.copy(this.layers[index]));
             },
             switchPlaces: function(index_a, index_b) {
                 var tmp, obj_a, obj_b;
@@ -172,7 +176,7 @@ templateModule.factory('TemplateFactory', ['LayerFactory', 'TemplateService', fu
             var layer;
             delete data.layers;
             angular.extend(this,data);
-            while (layer = layers.pop()) {
+            while (layer = layers.shift()) {
                 this.layers.push(new LayerFactory(layer));
             }
 

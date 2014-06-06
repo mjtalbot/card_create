@@ -47,26 +47,9 @@
             </div>
         </div>
         <div class="container">
-            <div
-                id="cards"
-                class="card_section row"
-                ng-include="'/static/html/templates/card.html'">
-            </div>
-
-            <div
-                class="twitter_section row"
-                ng-include="'/static/html/templates/twitter.html'">
-            </div>
-
-            <div
-                ng-include="'/static/html/templates/template.html'"
-                class="template_section row">
-            </div>
-
-            <div
-                class="preview_section row"
-                ng-include="'/static/html/templates/preview.html'">
-            </div>
+            <div class="main-section" ng-include="'/static/html/templates/card.html'"></div>
+            <div class="main-section"  ng-include="'/static/html/templates/template.html'"></div>
+            <div class="main-section"  ng-include="'/static/html/templates/preview.html'"></div>
         </div>
     </body>
 </html>

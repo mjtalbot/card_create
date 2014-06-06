@@ -33,6 +33,12 @@ function($scope, TemplateList) {
 
     $scope.removeLayer = function(index) {
         $scope.data.selectedTemplate.removeLayer(index);
+        $scope.selectLayer(null);
+    }
+
+    $scope.cloneLayer = function(index) {
+        $scope.data.selectedTemplate.cloneLayer(index);
+        $scope.selectLayer($scope.data.selectedTemplate.layers.length-1);
     }
 
     $scope.moveLayerUp = function(index) {
@@ -72,7 +78,6 @@ function($scope, TemplateList) {
         $scope.new_attr_value = input.data.url
     }
     var calcStyleHelper = function () {
-        console.log('waht')
         if ($scope.data.selectedLayer)
             $scope.data.selectedLayer.calculateStyle();
     }

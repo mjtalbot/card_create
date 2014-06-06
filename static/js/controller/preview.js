@@ -31,8 +31,7 @@ function ($scope, TemplateList, CardList) {
                 background_image: tmp[i].background_image,
                 text: tmp[i].text
             };
-            if (tmp.text) {
-
+            if (_tmp.text) {
                 matched = _tmp.text.match(regex);
                 if (matched) {
                     for (var j=0; j<matched.length; j++){
@@ -79,8 +78,6 @@ function ($scope, TemplateList, CardList) {
                     }
                 }
             }
-            console.log(_tmp.text)
-            console.log(_tmp.style_sheet)
             $scope.current_layout.convertedLayers.push(_tmp);
         }
     }

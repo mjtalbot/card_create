@@ -52,7 +52,7 @@
 
                     <tr ng-repeat="(attr_key, attr_value) in data.selectedTemplate.attributes">
                         <td>{{attr_key}}</td>
-                        <td><input type="text" ng-model="data.selectedTemplates.attributes[attr_key]" /></td>
+                        <td><input type="text" ng-model="data.selectedTemplate.attributes[attr_key]" /></td>
                         <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
                     </tr>
                     <tr>
@@ -65,7 +65,7 @@
                               url="/resource/"
                               on-success="successUpload(response)"
                             >
-                                U
+                                <span class="glyphicon glyphicon-upload"></span>
                             </div>
                         </td>
                         <td><button ng-click="addAttribute()">Add</button></td>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="col-md-8">
-            <div class="layers col-md-3">
+            <div class="layers col-md-4">
                 <h6>Template Layers</h6>
                 <div class="add_layer" ng-click="addLayer()">
 
@@ -85,14 +85,15 @@
                     ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
                     ng-repeat="layer in data.selectedTemplate.layers"
                     ng-click="selectLayer($index)">
-                    Layer {{$index}}
                     <div class="inline not-selected-hidden glyphicon glyphicon-remove" ng-click="removeLayer($index)"></div>
+                    {{layer.name || layer.text || "Layer "+$index }}
                     <div class="inline not-selected-hidden glyphicon glyphicon-arrow-up" ng-click="moveLayerUp($index)"></div>
                     <div class="inline not-selected-hidden glyphicon glyphicon-arrow-down" ng-click="moveLayerDown($index)"></div>
+                    <div class="inline not-selected-hidden glyphicon glyphicon-magnet" ng-click="cloneLayer($index)"></div>
                 </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h6>Layer control</h6>
                 <table class="table">
                     <thead>
@@ -103,6 +104,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td>Name (optional)</td>
+                            <td><input type="text" ng-model="data.selectedLayer.name"/></td>
+                            <td><button ng-click="data.selectedLayer.addAttribute(key, value); key = ''; value = '';">Add</button></td>
+                        </tr>
                         <tr ng-repeat="css in data.selectedLayer.css">
                             <td>{{css.key}}</td>
                             <td><input type="text" ng-model="css.value" /></td>
@@ -141,7 +147,7 @@
                     ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
                     style="{{layer.style_sheet}}"
                     ng-repeat="layer in data.selectedTemplate.layers">
-                    {{layer.text || "Layer "+$index }}
+                    {{layer.name || layer.text || "Layer "+$index }}
                 </div>
             </div>
         </div>
