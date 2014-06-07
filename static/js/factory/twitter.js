@@ -15,7 +15,7 @@ twitterServices.factory('TwitterFactory', function(){
                 retweet_count += timeline[i].retweet_count;
             }
             return retweet_count/timeline.length;
-        }()
+        }();
 
         this.avg_hashtags = function() {
             var hashtag_count = 0;
@@ -24,15 +24,15 @@ twitterServices.factory('TwitterFactory', function(){
                     hashtag_count += timeline[i].entities.hashtags.length;
             }
             return hashtag_count/timeline.length;
-        }()
+        }();
 
         this.avg_words = function() {
             var word_count = 0;
             for (var i =0; i < timeline.length; i ++) {
-                word_count += timeline[i].text.split(' ').length
+                word_count += timeline[i].text.split(' ').length;
             }
             return word_count/timeline.length;
-        }()
+        }();
 
         this.avg_user_mentions = function() {
             var user_mentions = 0;
@@ -41,8 +41,8 @@ twitterServices.factory('TwitterFactory', function(){
                     user_mentions += timeline[i].entities.user_mentions.length;
             }
             return user_mentions/timeline.length;
-        }()
-    }
+        }();
+    };
     return TwitterFactory;
 });
 
@@ -60,11 +60,11 @@ twitterServices.service('TwitterService', ['TwitterFactory', '$http', '$q', func
                         def.resolve(new_account);
                     },
                     def.reject
-                )
+                );
             },
             def.reject
-        )
+        );
         return def.promise;
-    }
+    };
     return TwitterService;
 }]);

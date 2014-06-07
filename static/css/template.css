@@ -1,19 +1,66 @@
-.template_list {
-    list-style-type: none;
+.template_section {
+    max-height:800px;
 }
-.template_list li.selected{
-    border: 1px solid black;
+
+.template_selection > .header {
+    height: 90px;
 }
-.template_list li.saved{
-    background:green;
+
+.template_selection > .body {
+    max-height: 310px;
+    overflow-y:auto;
+}
+
+.template_list > .template{
+    text-align: left;
+    margin-bottom: 3px;
+}
+
+
+.template_details {
+    max-height:400px;
+}
+
+.template_details .header {
+    height: 90px;
+}
+
+.template_details .body {
+    max-height: 310px;
+}
+
+.template_details .body > .fixed{
+    height:40px;
+    margin-bottom:3px;
+}
+
+.template_details .body > .moves{
+    width: 100%;
+    max-height: 270px;
+    float:left;
+    overflow-y: auto;
+}
+
+.template_details .body > .moves > div{
+    margin-bottom: 3px;
+    height:34px;
 }
 
 
 .base_placeholder {
     float:left;
-    background:pink;
+    background:gray;
     overflow:hidden;
     position:relative;
+}
+
+.base_placeholder > .layer {
+    overflow:hidden;
+    background-color: rgba(0, 0, 254);
+    background-color: rgba(0, 0, 254, 0.4);
+    color:black;
+    border:1px solid black;
+
 }
 
 .base_placeholder > .layer.selected {
@@ -22,26 +69,11 @@
     box-shadow: 0 0 15px 5px rgba(255, 255, 190, .75);
 }
 
-.layers {
-    background:gray;
+.layers > .div{
+    text-align: left;
+    margin-bottom: 3px;
 }
 
-.layers > div {
-    float:left;
-    width:100%;
-    margin-bottom:5px;
-    background:silver;
-    text-align:center;
-    line-height:25px;
-}
-.layers > div:hover {
-    cursor: pointer;
-}
-.layers > div.selected {
-    font-weight:bold;
-    color:red;
-    background:pink;
-}
 
 .layers > div > .not-selected-hidden {
     display: none;
@@ -51,7 +83,36 @@
     display:inline;
 }
 
+.layer_selection > .header {
+    height: 90px;
+}
 
-.inline {
-    display: inline;
+.layer_selection > .body {
+    max-height: 310px;
+    overflow-y:auto;
+}
+
+.layer_list > .layer{
+    text-align: left;
+    margin-bottom: 3px;
+}
+
+.layer_details > .header {
+    height: 90px;
+}
+
+.layer_details > .body {
+    max-height: 310px;
+}
+
+.layer_details .body > .moves{
+    width: 100%;
+    max-height: 270px;
+    float:left;
+    overflow-y: auto;
+}
+
+.layer_details .body > .moves > div{
+    margin-bottom: 3px;
+    height:34px;
 }

@@ -3,9 +3,8 @@ var app = angular.module('app');
 app.controller('PreviewController', ['$scope', 'TemplateListFactory', 'CardListFactory',
 function ($scope, TemplateList, CardList) {
     $scope.cards = CardList.cards;
-    $scope.templates = TemplateList.templates;
 
-    $scope.selectedTemplate = "";
+    $scope.selectedTemplate = TemplateList.selectedTemplate;
     $scope.selectedCard = "";
 
     $scope.current_layout = {};

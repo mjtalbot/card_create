@@ -3,6 +3,13 @@
     clear:both;
 }
 
+
+.spacer {
+    min-width:20px;
+    min-height:20px;
+    float:left;
+}
+
 .left {
     float:left;
 }
@@ -11,14 +18,13 @@
     float:right;
 }
 
-.spacer {
-    min-width:20px;
-    min-height:20px;
-    float:left;
-}
-
 .searching .form-control {
     border-color: blue;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+
+.inline {
+    display: inline;
 }

@@ -1,64 +1,76 @@
-<h3>
+<h1>
     Templates
-    <small>
-        allow you to add layers and apply cards to them. you can use the attributes saved
-        against cards to dynamically fill the template.
-    </small>
-</h3>
-<div class="template_selection col-md-2 highlight" ng-controller="templateListController">
-    <button ng-click="addTemplate()">Add a new Template</button>
+</h1>
+<p>
+    This section allows you to create a layout. Layouts can have attributes and layers.
+    Card creation will take a look at the layers and match its text or background attributes against
+    the attributes from the selected card. If no match is found it will also check the templates attributes.
+</p>
+<div class="template_section">
+    <div class="template_selection col-md-3" ng-controller="templateListController">
+        <div class="header">
+            <h3>
+                Available templates
+            </h3>
+            <p>
+                <button class="btn btn-default" ng-click="addTemplate()">
+                    New
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </button>
+            </p>
+        </div>
+        <div class="body">
+            <div class="template_list">
+                <div
+                    class="template well well-sm"
+                    ng-repeat="template in data.templates"
+                    ng-class="{'selected': template==data.selectedTemplate}"
+                    ng-click="selectTemplate($index)">
+                    <div class="spacer">
+                        <span class="glyphicon left" ng-class="{'glyphicon-hand-right': template==selectedTemplate}"></span>
+                    </div>
+                    {{template.name}}
+                    <span class="glyphicon right" ng-class="{'glyphicon-saved': template.saved}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-controller="templateController">
+        <div ng-if="data.selectedTemplate == null">
+            <div class="template_details col-md-9">
+                <div class="header">
+                    <h3>
+                        Select or Create
+                    </h3>
+                </div>
+                <div class="body">
+                    No template is selected, use the controls to the right to add or select a template.
+                </div>
+            </div>
+        </div>
 
-    <ul class="template_list">
-        <li
-            ng-repeat="template in data.templates"
-            ng-class="
-                {
-                    selected:$index==data.templates.indexOf(data.selectedTemplate),
-                    saved:template.saved
-                }
-            "
-            ng-click="selectTemplate($index)">
-            {{$index +1}} {{template.name}}
-        </li>
-    </ul>
-</div>
-
-<div class="template_details col-md-10 highlight" ng-controller="templateController">
-    <div ng-if="data.selectedTemplate!==null">
-        <h4>Template details</h4>
-        <div class="col-md-12">
-            <h6>Template attributes</h6>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>attribute</th>
-                        <th>name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>name</td>
-                        <td><input type="text" ng-model="data.selectedTemplate.name" /></td>
-                    </tr>
-                    <tr>
-                        <td>width</td>
-                        <td><input type="text" ng-model="data.selectedTemplate.css.width" /></td>
-                    </tr>
-                    <tr>
-                        <td>heigth</td>
-                        <td><input type="text" ng-model="data.selectedTemplate.css.height" /></td>
-                    </tr>
-
-                    <tr ng-repeat="(attr_key, attr_value) in data.selectedTemplate.attributes">
-                        <td>{{attr_key}}</td>
-                        <td><input type="text" ng-model="data.selectedTemplate.attributes[attr_key]" /></td>
-                        <td><button ng-click="removeAttribute(attr_key)">Remove</button></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" ng-model="$parent.new_attr_name" placeholder="Enter Attribute name here" /></td>
-                        <td>
+        <div ng-if="data.selectedTemplate !== null">
+            <div class="template_details col-md-6">
+                <div class="header">
+                    <h3>Template details: <input type="text" ng-model="data.selectedTemplate.name" /></h3>
+                    <div>
+                        <button class="btn btn-success" ng-click="save()">
+                            Save
+                            <span class="glyphicon glyphicon-save">
+                        </button>
+                        <button class="btn btn-danger" ng-click="delete()">
+                            Delete
+                            <span class="glyphicon glyphicon-remove">
+                        </button>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="col-md-12 fixed">
+                        <div class="col-md-4"><input type="text" ng-model="$parent.new_attr_name" placeholder="Enter Attribute name here" /></div>
+                        <div class="col-md-4">
                             <input type="text" ng-model="$parent.new_attr_value" placeholder="Enter Attribute value here" />
+                        </div>
+                        <div class="col-md-4">
                             <div
                               class="btn btn-primary btn-upload"
                               upload-button
@@ -67,100 +79,135 @@
                             >
                                 <span class="glyphicon glyphicon-upload"></span>
                             </div>
-                        </td>
-                        <td><button ng-click="addAttribute()">Add</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                            <button ng-click="addAttribute()">Add</button>
+                        </div>
+                    </div>
+                    <div class="moves">
+                        <div class="col-md-12">
+                            <div class="col-md-4">name</div>
+                            <div class="col-md-4"><input type="text" ng-model="data.selectedTemplate.name" /></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">width</div>
+                            <div class="col-md-4"><input type="text" ng-model="data.selectedTemplate.css.width" /></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">heigth</div>
+                            <div class="col-md-4"><input type="text" ng-model="data.selectedTemplate.css.height" /></div>
+                        </div class="col-md-12">
 
-        <div class="col-md-8">
-            <div class="layers col-md-4">
-                <h6>Template Layers</h6>
-                <div class="add_layer" ng-click="addLayer()">
-
-                    <div class="inline glyphicon glyphicon-plus-sign"></div>
-                </div>
-                <div class="layer"
-                    ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
-                    ng-repeat="layer in data.selectedTemplate.layers"
-                    ng-click="selectLayer($index)">
-                    <div class="inline not-selected-hidden glyphicon glyphicon-remove" ng-click="removeLayer($index)"></div>
-                    {{layer.name || layer.text || "Layer "+$index }}
-                    <div class="inline not-selected-hidden glyphicon glyphicon-arrow-up" ng-click="moveLayerUp($index)"></div>
-                    <div class="inline not-selected-hidden glyphicon glyphicon-arrow-down" ng-click="moveLayerDown($index)"></div>
-                    <div class="inline not-selected-hidden glyphicon glyphicon-magnet" ng-click="cloneLayer($index)"></div>
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <h6>Layer control</h6>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>css</th>
-                            <th>value</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Name (optional)</td>
-                            <td><input type="text" ng-model="data.selectedLayer.name"/></td>
-                            <td><button ng-click="data.selectedLayer.addAttribute(key, value); key = ''; value = '';">Add</button></td>
-                        </tr>
-                        <tr ng-repeat="css in data.selectedLayer.css">
-                            <td>{{css.key}}</td>
-                            <td><input type="text" ng-model="css.value" /></td>
-                            <td><button ng-click="data.selectedLayer.deleteAttribute($index)">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" ng-model="key"/></td>
-                            <td><input type="text" ng-model="value"/></td>
-                            <td><button ng-click="data.selectedLayer.addAttribute(key, value); key = ''; value = '';">Add</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <label>Text Contents:</label>
-                <input
-                    type="textbox"
-                    name="text_input"
-                    ng-model="data.selectedLayer.text"
-                />
-                <div>Please note, any words beginning with # will be replaced with attributes later</div>
-                <br/>
-                <label>Background Image:</label>
-                <input
-                    type="textbox"
-                    name="text_input"
-                    ng-model="data.selectedLayer.background_image"
-                />
-                <div>Please note this must be a valid url, or being with a # and be replaced with an attribute later</div>
-                <br/>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="base_placeholder" style="width:{{data.selectedTemplate.css.width}}px;height:{{data.selectedTemplate.css.height}}px;">
-                <div class="layer"
-                    ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
-                    style="{{layer.style_sheet}}"
-                    ng-repeat="layer in data.selectedTemplate.layers">
-                    {{layer.name || layer.text || "Layer "+$index }}
+                        <div class="col-md-12" ng-repeat="(attr_key, attr_value) in data.selectedTemplate.attributes">
+                            <div class="col-md-4">{{attr_key}}</div>
+                            <div class="col-md-4"><input type="text" ng-model="data.selectedTemplate.attributes[attr_key]" /></div>
+                            <div class="col-md-4"><button ng-click="removeAttribute(attr_key)">Remove</button></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="col-md-3">
+                <div class="base_placeholder" style="width:{{data.selectedTemplate.css.width}}px;height:{{data.selectedTemplate.css.height}}px;">
+                    <div class="layer"
+                        ng-class="{selected: data.selectedTemplate.layers.indexOf(data.selectedLayer)==$index}"
+                        style="{{layer.style_sheet}}"
+                        ng-repeat="layer in data.selectedTemplate.layers">
+                        {{layer.name || layer.text || "Layer "+$index }}
+                    </div>
+                </div>
+            </div>
+            <div class="layer_selection col-md-3">
+                <div class="header">
+                    <h3>Template Layers</h3>
+                    <button class="btn btn-default" ng-click="addLayer()">
+                        New <span class="glyphicon glyphicon-plus-sign"></span>
+                    </button>
+                </div>
+                <div class="body">
+                    <div class="layer_list">
+                        <div class="layer well well-sm"
+                            ng-repeat="layer in data.selectedTemplate.layers"
+                            ng-click="selectLayer($index)">
+                            <div class="spacer">
+                                <span class="glyphicon left" ng-class="{'glyphicon-hand-right': layer==data.selectedLayer}"></span>
+                            </div>
+                            {{layer.name || layer.text || "Layer "+$index }}
+                            <div class="spacer right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="row">
-            <button ng-click="save()">Save</button>
-            <button ng-click="delete()">Delete</button>
-        </div>
-    </div>
+            <div class="layer_details col-md-6">
+                <div class="header">
+                    <h6>Layer control: <input type="text" ng-model="data.selectedLayer.name"/></h6>
 
-    <div ng-if="data.selectedTemplate == null" class="template_details col-md-10">
-        <h3>
-            Please create a template to the left
-        </h3>
+                    <button class="btn btn-warning" ng-click="removeLayer(data.selectedLayer)">
+                        Remove Layer
+                        <span class="glyphicon glyphicon-remove">
+                    </button>
+                    <button class="btn btn-default" ng-click="moveLayerUp(data.selectedLayer)">
+                        Move Back
+                        <span class="glyphicon glyphicon-arrow-up">
+                    </button>
+                    </button>
+                    <button class="btn btn-default" ng-click="moveLayerDown(data.selectedLayer)">
+                        Bring forward
+                        <span class="glyphicon glyphicon-arrow-down">
+                    </button>
+                    </button>
+                    <button class="btn btn-info" ng-click="cloneLayer(data.selectedLayer)">
+                        Clone
+                        <span class="glyphicon glyphicon-arrow-magnet">
+                    </button>
+
+                </div>
+                <div class="body">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <input type="text" ng-model="key">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="value">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-default" ng-click="data.selectedLayer.addAttribute(key, value); key = ''; value = '';">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="moves">
+                        <div class="col-md-12">
+                            <div class="col-md-4">Name (optional)</div>
+                            <div class="col-md-4"><input type="text" ng-model="data.selectedLayer.name"/></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">Text Contents</div>
+                            <div class="col-md-4">
+                                <input
+                                    type="textbox"
+                                    name="text_input"
+                                    ng-model="data.selectedLayer.text"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">Background Image</div>
+                            <div class="col-md-4">
+                                <input
+                                    type="textbox"
+                                    name="text_input"
+                                    ng-model="data.selectedLayer.background_image"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-repeat="css in data.selectedLayer.css">
+                            <div class="col-md-4">{{css.key}}</div>
+                            <div class="col-md-4"><input type="text" ng-model="css.value" /></div>
+                            <div class="col-md-4"><button ng-click="data.selectedLayer.deleteAttribute($index)">Delete</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-include="'/static/html/templates/preview.html'"></div>
+        </div>
     </div>
 </div>

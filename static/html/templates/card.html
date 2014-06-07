@@ -65,7 +65,7 @@
         <div class="card_details col-md-8">
             <div ng-if="currentCard">
                 <div class="header">
-                    <h3>Current Card Details</h3>
+                    <h3>Current Card Details : <input type="text" ng-model="currentCard.name" /></h3>
                     <div>
                         <button class="btn btn-success" ng-click="save()">
                             Save
@@ -95,7 +95,8 @@
                                 <span class="glyphicon glyphicon-upload"></span>
                             </div>
                             <button class="btn btn-default" ng-click="addAttribute()">
-                                <span class="glyphicon glyphicon-add">Add</span>
+                                Add
+                                <span class="glyphicon glyphicon-plus-sign"></span>
                             </button>
                         </div>
                     </div>
