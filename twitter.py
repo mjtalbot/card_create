@@ -59,12 +59,3 @@ class Twitter(object):
         if type(twitter_response) is dict and 'errors' in twitter_response:
             raise Exception(str(twitter_response))
         return twitter_response
-
-
-if __name__ == '__main__':
-    t = Twitter()
-    t.acquire_token(
-        '7X5Jm7TyQnVebJBwRnKtJYjwz',
-        'cwqB3zScXxjqiCRlQRGoZvx2mPYCvsYteongSmRb3DVkhDLQ6M'
-    )
-    print t.get_timeline('mjohnsullivan')
